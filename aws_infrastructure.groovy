@@ -1,11 +1,10 @@
-BUILD_INFRASTRUCTURE = 'scm_terraform'
-PROJECT_NAME = 'scm'
-SCM_GIT_URL = 'https://github.com/nawinkumar94/Terraform-Aws-Two-Tier-Application.git'
+BUILD_INFRASTRUCTURE = 'terraform'
+PROJECT_NAME = 'InfraWithTerraform'
+GIT_URL = 'https://github.com/DivakarRaju/Deploy_Two_Tier_With_Terraform_Ansible.git'
 BRANCH_NAME = 'main'
 TERRAFORM_VERSION = '0.13.3'
-REGION = 'ap-south-1'
 CREDENTIALS_ID =
-OPERATION = 'OPERATION
+OPERATION = 'OPERATION'
 
 pipelineJob(BUILD_INFRASTRUCTURE){
     displayName(PROJECT_NAME)
@@ -17,10 +16,8 @@ pipelineJob(BUILD_INFRASTRUCTURE){
     parameters{
         stringParam('BRANCH_NAME', BRANCH_NAME, 'SCM Branch Details')
         stringParam('TERRAFORM_VERSION', TERRAFORM_VERSION, 'Version of Terraform to Deploy')
-        stringParam('SCM_GIT_URL', SCM_GIT_URL, 'Terraform Project Infrastructure')
+        stringParam('GIT_URL', GIT_URL, 'Terraform Project Infrastructure')
         choiceParam('OPERATION', ['apply', 'destroy'])
-        stringParam('REGION', defaultValue = REGION)
-        stringParam('BUCKET_NAME', BUCKET_NAME)
         credentialsParam('CREDENTIALS_ID'){
             defaultValue('CREDENTIALS_ID')
         }
