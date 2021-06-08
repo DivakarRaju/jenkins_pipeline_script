@@ -1,0 +1,11 @@
+node{
+    def workspace_dir = 'webapp'
+    def operation = "${OPERATION}"
+    stage("Git checkout"){
+        checkout(
+            [
+                
+            ]
+        )
+    }
+}
