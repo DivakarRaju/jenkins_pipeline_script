@@ -38,4 +38,38 @@ node{
             ''')
         }
     }
+
+    stage('Initialize and Validate Terraform'){
+        dir(workspace_dir){
+        println("intializing terraform execution")
+        ansiColor('xterm') {
+        sh ('''
+            echo $PWD
+            terraform init -input=false -backend-config="bucket=${BUCKET_NAME}" -backend-config="region=${REGION}"
+        ''')
+        }
+        println("Validating terraform code")
+            try{
+            ansiColor('xterm') {
+                    sh ('''
+                        echo $PWD
+                        terraform validate
+                        echo "Validation Successful"
+                    ''')
+                    }
+
+
+
+                    
+                }
+            catch(err){
+                println("Template Validation Failed")
+                println(err)
+            }
+        }
+    }
+
+
+
+
 }
