@@ -92,4 +92,39 @@ node{
     }
 
 
+    stage('Deploy Terraform'){
+        try{
+            dir(workspace_dir){
+                if (operation == 'apply') {
+                ansiColor('xterm') {
+                    sh ('''
+                        terraform apply -input=false -auto-approve=true plan.out
+                        echo "Deployment Applied Successfully"
+                    ''')
+                    slack_notify()
+                  }
+                }
+                else if (operation == 'destroy'){
+                ansiColor('xterm') {
+                    sh ('''
+                        terraform destroy -input=false -auto-approve=true
+                        echo "Deployment Destroy Success"
+                    ''')
+                    slack_notify()
+                  }
+                }
+            }
+        }
+        catch(err) {
+            println("Terraform Deployment Failed")
+	          println(err)
+        }
+        finally {
+            deleteDir()
+        }
+    }
+
+}
+
+
 }
