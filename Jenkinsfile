@@ -125,18 +125,15 @@ node{
     }
 
     def slack_notify(){
-    println("Slack Notification")
-    def attachments = [
-        [
-            title: 'Notification for Terraform Project',
-            text: 'Result of Deployment',
-            color: '#2eb886'
+        println("Slack Notification")
+        def attachments = [
+            [
+                title: 'Notification for Terraform Project',
+                text: 'Result of Deployment',
+                color: '#2eb886'
+            ]
         ]
-    ]
-    slackSend(channel: "#devops", attachments: attachments)
-}
-
-}
-
+        slackSend(channel: "#devops", attachments: attachments)
+    }
 
 }
