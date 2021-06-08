@@ -119,6 +119,7 @@ node{
             deleteDir()
         }
     }
+}
 
     def slack_notify(){
         println("Slack Notification")
@@ -131,5 +132,3 @@ node{
         ]
         slackSend(channel: "#devops", attachments: attachments)
     }
-
-}
