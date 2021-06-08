@@ -22,6 +22,26 @@ pipelineJob(BUILD_INFRASTRUCTURE){
             defaultValue('CREDENTIALS_ID')
         }
     }
-
+    definition {
+        cpsScm{
+            scm {
+                git {                   
+                    remote {
+                        credentials(CREDENTIALS_ID)
+                        url(GIT_PATH)
+                    }
+                    branch('*/BRANCH_NAME')
+                }
+            scriptPath(SCRIPT_PATH)
+            lightweight()
+            }            
+        }
+    }
+    properties{
+        rebuild{
+            autoRebuild(false)
+            rebuildDisabled(false)
+        }
+    }
 
 }
