@@ -45,7 +45,7 @@ node{
         ansiColor('xterm') {
         sh ('''
             echo $PWD
-            terraform init -input=false -backend-config="bucket=${BUCKET_NAME}" -backend-config="region=${REGION}"
+            terraform init"
         ''')
         }
         println("Validating terraform code")
@@ -75,7 +75,7 @@ node{
         println("Generating Terraform Plan for Apply")
         ansiColor('xterm') {
           sh ('''
-            terraform plan -input=false -out=plan.out
+            terraform plan -out=plan.out
             echo "Plan success"
           ''')
           }
@@ -84,7 +84,7 @@ node{
         println("Generating Terraform Plan for Destroy")
         ansiColor('xterm') {
           sh ('''
-            terraform plan -destroy -input=false -out=plan.out
+            terraform plan -destroy -out=plan.out
             ''')
             }
           }
@@ -98,7 +98,7 @@ node{
                 if (operation == 'apply') {
                 ansiColor('xterm') {
                     sh ('''
-                        terraform apply -input=false -auto-approve=true plan.out
+                        terraform apply -auto-approve=true plan.out
                         echo "Deployment Applied Successfully"
                     ''')
                     slack_notify()
@@ -107,7 +107,7 @@ node{
                 else if (operation == 'destroy'){
                 ansiColor('xterm') {
                     sh ('''
-                        terraform destroy -input=false -auto-approve=true
+                        terraform destroy -auto-approve=true
                         echo "Deployment Destroy Success"
                     ''')
                     slack_notify()
