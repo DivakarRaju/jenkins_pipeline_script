@@ -60,7 +60,7 @@ node{
 
 
 
-                    
+
                 }
             catch(err){
                 println("Template Validation Failed")
@@ -69,7 +69,27 @@ node{
         }
     }
 
-
+    stage('Terraform Plan'){
+      dir(workspace_dir){
+        if (operation == 'apply') {
+        println("Generating Terraform Plan for Apply")
+        ansiColor('xterm') {
+          sh ('''
+            terraform plan -input=false -out=plan.out
+            echo "Plan success"
+          ''')
+          }
+        }
+        if (operation == 'destroy') {
+        println("Generating Terraform Plan for Destroy")
+        ansiColor('xterm') {
+          sh ('''
+            terraform plan -destroy -input=false -out=plan.out
+            ''')
+            }
+          }
+        }
+    }
 
 
 }
