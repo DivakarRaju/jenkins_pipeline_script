@@ -12,4 +12,18 @@ node{
         )
         println("Git Checkout Success")
     }
+
+    stage('Download Terraform'){
+        sh ('''
+            #!/bin/bash
+            if [! -d ${JENKINS_HOME}/project/terraform]; then
+                echo $PWD
+                echo ${JENKINS_HOME}
+                mkdir -p ${JENKINS_HOME}/project/terraform
+                cd ${JENKINS_HOME}/project/terraform
+            else
+                echo "Terraform directory created"
+            fi
+        ''')
+    }
 }
