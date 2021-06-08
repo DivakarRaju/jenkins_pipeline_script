@@ -56,12 +56,9 @@ node{
                         terraform validate
                         echo "Validation Successful"
                     ''')
-                    }
+            }
 
-
-
-
-                }
+            }
             catch(err){
                 println("Template Validation Failed")
                 println(err)
@@ -70,54 +67,53 @@ node{
     }
 
     stage('Terraform Plan'){
-      dir(workspace_dir){
-        if (operation == 'apply') {
-        println("Generating Terraform Plan for Apply")
-        ansiColor('xterm') {
-          sh ('''
-            terraform plan -out=plan.out
-            echo "Plan success"
-          ''')
-          }
-        }
-        if (operation == 'destroy') {
-        println("Generating Terraform Plan for Destroy")
-        ansiColor('xterm') {
-          sh ('''
-            terraform plan -destroy -out=plan.out
-            ''')
+        dir(workspace_dir) {
+            if (operation == 'apply') {
+                println("Generating Terraform Plan for Apply")
+                ansiColor('xterm') {
+                    sh ('''
+                        terraform plan -out=plan.out
+                        echo "Plan success"
+                    ''')
+                }
             }
-          }
+            if (operation == 'destroy') {
+                println("Generating Terraform Plan for Destroy")
+                ansiColor('xterm') {
+                    sh ('''
+                        terraform plan -destroy -out=plan.out
+                        ''')
+                }
+            }
         }
     }
-
 
     stage('Deploy Terraform'){
         try{
             dir(workspace_dir){
                 if (operation == 'apply') {
-                ansiColor('xterm') {
-                    sh ('''
-                        terraform apply -auto-approve=true plan.out
-                        echo "Deployment Applied Successfully"
-                    ''')
-                    slack_notify()
-                  }
+                    ansiColor('xterm') {
+                        sh ('''
+                            terraform apply -auto-approve=true plan.out
+                            echo "Deployment Applied Successfully"
+                        ''')
+                        slack_notify()
+                    }
                 }
                 else if (operation == 'destroy'){
-                ansiColor('xterm') {
-                    sh ('''
-                        terraform destroy -auto-approve=true
-                        echo "Deployment Destroy Success"
-                    ''')
-                    slack_notify()
-                  }
+                    ansiColor('xterm') {
+                        sh ('''
+                            terraform destroy -auto-approve=true
+                            echo "Deployment Destroy Success"
+                        ''')
+                        slack_notify()
+                    }
                 }
             }
         }
         catch(err) {
             println("Terraform Deployment Failed")
-	          println(err)
+              println(err)
         }
         finally {
             deleteDir()
